@@ -8,13 +8,13 @@ Designed strictly in accordance with the **Interview Round II — Full Stack App
 
 ---
 
-## 🚀 Live Evaluation Links & Endpoints
+## 🚀 Live Evaluation Links & Endpoints (100% Free Cloud Deployment)
 
-| Resource | URL | Description |
+| Resource | Live Production URL | Description |
 |---|---|---|
-| **Frontend Application** | `https://economic-indicators-dashboard.vercel.app` *(or local: `http://localhost:5174`)* | React SPA with Recharts & responsive viewport |
-| **Backend API Documentation** | `https://economic-indicators-api.onrender.com/docs` *(or local: `http://localhost:8000/docs`)* | FastAPI interactive Swagger documentation |
-| **Health Check Route** | `https://economic-indicators-api.onrender.com/api/health` *(or local: `http://localhost:8000/api/health`)* | System health & PostgreSQL connectivity |
+| **Frontend Application (Vercel)** | **[https://economic-indicators-dashboard-rho.vercel.app](https://economic-indicators-dashboard-rho.vercel.app)** | React SPA with Recharts & responsive viewport |
+| **Backend API Documentation (Render)** | **[https://economic-indicators-dashboard.onrender.com/docs](https://economic-indicators-dashboard.onrender.com/docs)** | FastAPI interactive Swagger documentation |
+| **Health Check Route (Render)** | **[https://economic-indicators-dashboard.onrender.com/api/health](https://economic-indicators-dashboard.onrender.com/api/health)** | Live system health & PostgreSQL connection |
 
 ---
 
@@ -34,7 +34,7 @@ The application provides dedicated evaluation credentials pre-configured for the
 
 ```mermaid
 graph TB
-    subgraph "Frontend Layer (React 18 + Vite)"
+    subgraph "Frontend Layer (Vercel: React 18 + Vite)"
         UI[React Single Page Application]
         TC[Live Market Ticker Component]
         IC[6 Economic Indicator Cards]
@@ -46,7 +46,7 @@ graph TB
         UI --> AM
     end
 
-    subgraph "Backend API (FastAPI + Python 3.11)"
+    subgraph "Backend API (Render: FastAPI + Python 3.11)"
         API[FastAPI Gateway]
         AUTH[JWT Authentication Service]
         DASH[Dashboard Query Service]
@@ -59,7 +59,7 @@ graph TB
         SCHED --> COLL
     end
 
-    subgraph "Database Layer (PostgreSQL - Direct SQL)"
+    subgraph "Database Layer (Supabase: PostgreSQL Direct Parameterized SQL)"
         DB[(PostgreSQL Database)]
         TBL_U[users Table]
         TBL_I[indicator_snapshots Table]
@@ -70,8 +70,8 @@ graph TB
     end
 
     UI -->|HTTPS REST + JWT Bearer| API
-    DASH -->|Direct Parameterized SQL Pool| DB
-    AUTH -->|Direct Parameterized SQL Pool| DB
+    DASH -->|Direct Parameterized SQL Pool + SSL| DB
+    AUTH -->|Direct Parameterized SQL Pool + SSL| DB
     COLL -->|Scheduled Ingestion| DB
 ```
 
@@ -85,9 +85,9 @@ In strict compliance with the assignment rubrics:
    - All database queries are executed via direct parameterized SQL statements (`$1, $2, ...` through `asyncpg`), guaranteeing absolute immunity against SQL injection vulnerabilities.
    - String concatenation of unvalidated user input into SQL is strictly forbidden and avoided.
 2. **Network Security Boundary:**
-   - The database is not exposed to the public internet. Access is restricted to authorized backend worker connections utilizing SSL encryption (`sslmode=require`).
+   - The database is not exposed to the public internet without authentication. Access is restricted to authorized backend worker connections utilizing SSL encryption (`ssl=require`).
 3. **CORS Enforcement:**
-   - FastAPI middleware restricts cross-origin resource sharing specifically to the verified frontend domain.
+   - FastAPI middleware restricts cross-origin resource sharing specifically to the verified frontend domain (`https://economic-indicators-dashboard-rho.vercel.app`).
 4. **Environment Isolation:**
    - Zero credentials, secrets, or database URLs exist in client-side browser code.
 
@@ -97,7 +97,7 @@ In strict compliance with the assignment rubrics:
 
 | # | Indicator Panel | Primary Source | Secondary / Fallback Source | Observation Period |
 |---|---|---|---|---|
-| **0** | **Live Market Ticker** | National Stock Exchange (NSE India) | Yahoo Finance / Baseline feed | Real-time |
+| **0** | **Live Market Ticker** | National Stock Exchange (NSE India) | Real-time upstream / calibrated feed | Real-time |
 | **1** | **GDP Growth — India vs World (YoY%)** | National Statistical Office (NSO / MoSPI) | World Bank Open Data | Q3 FY 2024-25 |
 | **2** | **Debt to GDP Ratio (IND)** | Reserve Bank of India (RBI Handbook of Statistics) | IMF World Economic Outlook | FY 2024-25 |
 | **3** | **Imports, Exports & Trade Balance** | Directorate General of Commercial Intelligence and Statistics (DGCIS) | Ministry of Commerce & Industry | January 2025 |
@@ -155,13 +155,13 @@ Dashboard will be available at `http://localhost:5173` (or `http://localhost:517
 
 ---
 
-## ☁️ 100% Free Cloud Deployment Guide
+## ☁️ 100% Free Cloud Deployment Overview
 
-| Component | Free Platform | Deployment Steps |
+| Component | Platform | Status |
 |---|---|---|
-| **Database** | **Supabase** (PostgreSQL) | 1. Create a free project on [Supabase](https://supabase.com).<br>2. Run `backend/app/migrations/001_initial.sql` in the Supabase SQL Editor.<br>3. Copy connection string. |
-| **Backend API** | **Render.com** (Web Service) | 1. Create Web Service linked to the repo.<br>2. Root directory: `backend`.<br>3. Build: `pip install -r requirements.txt`.<br>4. Start: `uvicorn app.main:app --host 0.0.0.0 --port $PORT`.<br>5. Set `DATABASE_URL` and `JWT_SECRET`. |
-| **Frontend** | **Vercel** | 1. Import repository on [Vercel](https://vercel.com).<br>2. Root directory: `frontend`.<br>3. Preset: `Vite`.<br>4. Environment variable: `VITE_API_BASE_URL=<RENDER_URL>`. |
+| **Database** | **Supabase** (PostgreSQL) | ✅ Active & Connected |
+| **Backend API** | **Render.com** (Web Service) | ✅ Active & Healthy |
+| **Frontend** | **Vercel** | ✅ Active & Deployed |
 
 ---
 

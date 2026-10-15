@@ -1,10 +1,11 @@
 import axios from 'axios';
 
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:8000';
+// Default to live Render backend for production deployment, overrideable via VITE_API_BASE_URL
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'https://economic-indicators-dashboard.onrender.com';
 
 const client = axios.create({
   baseURL: API_BASE_URL,
-  timeout: 8000,
+  timeout: 10000,
   headers: {
     'Content-Type': 'application/json'
   }
@@ -190,7 +191,7 @@ export async function registerUser(email, password, fullName) {
 export async function checkHealth() {
   try {
     const res = await client.get('/api/health');
-    return res.data?.status === 'healthy';
+    return res.data?.database_connected === true;
   } catch {
     return false;
   }
