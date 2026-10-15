@@ -22,19 +22,18 @@ async def init_db_pool():
             max_size=10,
             command_timeout=30.0
         )
-        logger.info("✅ Database connection pool successfully initialized.")
+        logger.info("[DB] Database connection pool successfully initialized.")
         await run_migrations()
         await seed_initial_data()
     except Exception as e:
-        logger.error(f"❌ Failed to connect to PostgreSQL database: {e}")
-        # Note: We do not crash the app so health checks still respond and return diagnostic info
+        logger.error(f"[DB] Failed to connect to PostgreSQL database: {e}")
         pool = None
 
 async def close_db_pool():
     global pool
     if pool:
         await pool.close()
-        logger.info("Database connection pool closed.")
+        logger.info("[DB] Database connection pool closed.")
 
 async def execute_query(query: str, *params) -> str:
     """Executes a direct parameterized query (INSERT, UPDATE, DELETE). Prevents SQL injection."""
@@ -116,7 +115,7 @@ async def run_migrations():
     """
     async with pool.acquire() as conn:
         await conn.execute(migration_sql)
-        logger.info("✅ Database tables and indexes verified.")
+        logger.info("[DB] Database tables and indexes verified.")
 
 async def seed_initial_data():
     """Seeds the 6 indicator panels matching the Figma benchmark design."""
@@ -127,7 +126,7 @@ async def seed_initial_data():
         if count > 0:
             return  # Already seeded
             
-        logger.info("🌱 Seeding initial benchmark indicator data from Figma reference...")
+        logger.info("[DB] Seeding initial benchmark indicator data from Figma reference...")
         
         # 1. GDP Growth - India vs World
         gdp_chart = [
@@ -152,12 +151,12 @@ async def seed_initial_data():
 
         # 2. Debt to GDP Ratio (IND)
         debt_chart = [
-            {"date": "25 Jul", "ratio": 80.0, "annotation": ""},
-            {"date": "28 Jul", "ratio": 90.0, "annotation": "6.3%"},
-            {"date": "1 Aug", "ratio": 65.0, "annotation": "6.3%"},
-            {"date": "8 Aug", "ratio": 54.0, "annotation": "6.3%"},
-            {"date": "15 Aug", "ratio": 65.0, "annotation": "6.3%"},
-            {"date": "22 Aug", "ratio": 72.0, "annotation": "6.3%"}
+            {"date": "25 Jul", "ratio": 78.0},
+            {"date": "28 Jul", "ratio": 88.0},
+            {"date": "1 Aug", "ratio": 65.0},
+            {"date": "8 Aug", "ratio": 54.0},
+            {"date": "15 Aug", "ratio": 65.0},
+            {"date": "22 Aug", "ratio": 72.0}
         ]
         await conn.execute(
             """
@@ -216,11 +215,11 @@ async def seed_initial_data():
 
         # 5. Inflation (IND)
         inflation_chart = [
-            {"year": "2021", "cpi": 8.2, "target": 4.0},
-            {"year": "2022", "cpi": 5.8, "target": 4.0},
-            {"year": "2023", "cpi": 2.8, "target": 4.0},
-            {"year": "2024", "cpi": 3.2, "target": 4.0},
-            {"year": "2025", "cpi": 5.4, "target": 4.0}
+            {"year": "2021", "cpi": 8.2},
+            {"year": "2022", "cpi": 5.8},
+            {"year": "2023", "cpi": 2.8},
+            {"year": "2024", "cpi": 3.2},
+            {"year": "2025", "cpi": 5.4}
         ]
         await conn.execute(
             """
@@ -266,4 +265,4 @@ async def seed_initial_data():
                 ('NIFTY IT', 37842.15, 412.50, 1.10)
             """
         )
-        logger.info("✅ All initial indicators and market ticker seeded successfully.")
+        logger.info("[DB] All initial indicators and market ticker seeded successfully.")
