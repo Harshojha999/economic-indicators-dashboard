@@ -1,0 +1,106 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap');
+
+:root {
+  --bg-primary: #070d18;
+  --bg-secondary: #0b1528;
+  --card-bg: rgba(13, 24, 44, 0.75);
+  --card-border: rgba(0, 195, 255, 0.22);
+  --card-glow: rgba(0, 195, 255, 0.12);
+  
+  --cyan-primary: #00e5ff;
+  --cyan-accent: #00b4d8;
+  --blue-bar: #0077b6;
+  --orange-accent: #f59e0b;
+  --gold-accent: #eab308;
+  --green-delta: #00e599;
+  --red-delta: #ef4444;
+  --text-primary: #ffffff;
+  --text-secondary: #94a3b8;
+  --text-muted: #64748b;
+  
+  --font-main: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-mono: 'JetBrains Mono', monospace;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background-color: var(--bg-primary);
+  background-image: 
+    radial-gradient(circle at 50% 0%, rgba(0, 140, 255, 0.15), transparent 40%),
+    radial-gradient(circle at 10% 30%, rgba(0, 229, 255, 0.08), transparent 30%),
+    radial-gradient(circle at 90% 70%, rgba(245, 158, 11, 0.05), transparent 30%);
+  color: var(--text-primary);
+  font-family: var(--font-main);
+  min-height: 100vh;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Evaluation Container calibrated for 1214 x 2159 viewport */
+.viewport-container {
+  width: 100%;
+  max-width: 1214px;
+  margin: 0 auto;
+  min-height: 2159px;
+  display: flex;
+  flex-direction: column;
+  padding: 16px 24px 40px 24px;
+  position: relative;
+}
+
+/* Glassmorphism Card Style matching Figma Reference */
+.indicator-card {
+  background: linear-gradient(135deg, rgba(14, 25, 45, 0.85) 0%, rgba(9, 18, 33, 0.95) 100%);
+  border: 1px solid var(--card-border);
+  border-radius: 14px;
+  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.4), inset 0 1px 0 0 rgba(0, 229, 255, 0.2);
+  backdrop-filter: blur(12px);
+  padding: 20px;
+  position: relative;
+  overflow: hidden;
+  transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.indicator-card:hover {
+  border-color: rgba(0, 229, 255, 0.45);
+  box-shadow: 0 12px 40px 0 rgba(0, 150, 255, 0.2), inset 0 1px 0 0 rgba(0, 229, 255, 0.4);
+}
+
+/* Delta tags */
+.delta-positive {
+  color: var(--green-delta);
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.delta-negative {
+  color: var(--red-delta);
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+/* Animations */
+@keyframes pulseGlow {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.4; transform: scale(0.9); }
+}
+
+.pulsing-dot {
+  width: 8px;
+  height: 8px;
+  background-color: #ef4444;
+  border-radius: 50%;
+  display: inline-block;
+  box-shadow: 0 0 8px #ef4444;
+  animation: pulseGlow 1.5s infinite ease-in-out;
+}
