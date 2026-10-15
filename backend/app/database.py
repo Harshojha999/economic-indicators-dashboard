@@ -11,16 +11,23 @@ pool: Optional[asyncpg.Pool] = None
 async def init_db_pool():
     global pool
     try:
-        # Convert postgresql:// to clean format if needed
         db_url = settings.DATABASE_URL
         if db_url.startswith("postgres://"):
             db_url = db_url.replace("postgres://", "postgresql://", 1)
             
+        # Detect if remote cloud (Supabase / Render) to apply SSL & disable prepared statement caching
+        is_cloud = "supabase" in db_url or "render" in db_url or "pooler" in db_url
+        
+        ssl_mode = "require" if is_cloud else None
+        cache_size = 0 if is_cloud else 100
+
         pool = await asyncpg.create_pool(
             dsn=db_url,
-            min_size=2,
-            max_size=10,
-            command_timeout=30.0
+            min_size=1,
+            max_size=5,
+            command_timeout=30.0,
+            statement_cache_size=cache_size,
+            ssl=ssl_mode
         )
         logger.info("[DB] Database connection pool successfully initialized.")
         await run_migrations()
