@@ -1,5 +1,5 @@
-import React from 'react';
-import { User, LogIn, LogOut, RefreshCw, ShieldCheck, Activity } from 'lucide-react';
+import React, { useState, useEffect } from 'react';
+import { User, LogIn, LogOut, RefreshCw, ShieldCheck, Activity, Check } from 'lucide-react';
 
 export default function Navbar({
   user,
@@ -9,6 +9,22 @@ export default function Navbar({
   isRefreshing,
   serverStatus
 }) {
+  const [justSynced, setJustSynced] = useState(false);
+
+  useEffect(() => {
+    let timer;
+    if (!isRefreshing && justSynced) {
+      timer = setTimeout(() => setJustSynced(false), 2000);
+    }
+    return () => {
+      if (timer) clearTimeout(timer);
+    };
+  }, [isRefreshing, justSynced]);
+
+  const handleSyncClick = () => {
+    setJustSynced(true);
+    onRefresh();
+  };
   return (
     <header style={{ marginBottom: '16px' }}>
       {/* Top Utility Status Bar */}
@@ -57,23 +73,40 @@ export default function Navbar({
         {/* Right actions: Refresh & Auth */}
         <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
           <button
-            onClick={onRefresh}
+            onClick={handleSyncClick}
             disabled={isRefreshing}
             style={{
-              background: 'transparent',
-              border: '1px solid rgba(255, 255, 255, 0.15)',
-              color: '#ffffff',
+              background: justSynced && !isRefreshing ? 'rgba(0, 229, 153, 0.15)' : 'transparent',
+              border: `1px solid ${justSynced && !isRefreshing ? '#00e599' : 'rgba(255, 255, 255, 0.2)'}`,
+              color: justSynced && !isRefreshing ? '#00e599' : '#ffffff',
               borderRadius: '6px',
               padding: '4px 10px',
               fontSize: '12px',
-              cursor: 'pointer',
+              cursor: isRefreshing ? 'wait' : 'pointer',
               display: 'flex',
               alignItems: 'center',
-              gap: '6px'
+              gap: '6px',
+              transition: 'all 0.2s ease'
             }}
+            title="Refresh latest market ticker & indicator metrics"
           >
-            <RefreshCw size={12} style={{ animation: isRefreshing ? 'spin 1s linear infinite' : 'none' }} />
-            <span>Sync</span>
+            {justSynced && !isRefreshing ? (
+              <>
+                <Check size={12} style={{ color: '#00e599' }} />
+                <span style={{ fontWeight: 600 }}>Synced!</span>
+              </>
+            ) : (
+              <>
+                <RefreshCw 
+                  size={12} 
+                  style={{ 
+                    animation: isRefreshing ? 'spin 0.8s linear infinite' : 'none',
+                    display: 'inline-block'
+                  }} 
+                />
+                <span>{isRefreshing ? 'Syncing...' : 'Sync'}</span>
+              </>
+            )}
           </button>
 
           {user ? (

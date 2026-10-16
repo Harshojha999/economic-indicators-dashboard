@@ -53,6 +53,7 @@ export default function App() {
   // Load initial data
   const loadData = async () => {
     setIsLoading(true);
+    const minWait = new Promise(resolve => setTimeout(resolve, 600));
     try {
       const isHealthy = await checkHealth();
       setServerHealthy(isHealthy);
@@ -65,9 +66,11 @@ export default function App() {
         setIndicators(indicatorRes.data);
         setIsStale(indicatorRes.isStale);
       }
+      await minWait;
     } catch (err) {
       console.warn('Network sync notice:', err);
       setIsStale(true);
+      await minWait;
     } finally {
       setIsLoading(false);
     }
