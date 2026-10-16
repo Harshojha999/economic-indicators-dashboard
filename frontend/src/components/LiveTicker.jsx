@@ -9,7 +9,20 @@ export default function LiveTicker({ tickerData = [] }) {
     { symbol: 'NIFTY IT', price: 37842.15, change_value: 412.50, change_percent: 1.10 }
   ];
 
-  const items = tickerData.length > 0 ? tickerData : defaultItems;
+  const rawItems = tickerData.length > 0 ? tickerData : defaultItems;
+
+  // Deduplicate by symbol so each index appears exactly once (no repeat / duplication)
+  const uniqueItemsMap = new Map();
+  rawItems.forEach(item => {
+    if (item?.symbol && !uniqueItemsMap.has(item.symbol)) {
+      uniqueItemsMap.set(item.symbol, item);
+    }
+  });
+
+  const orderMap = { 'SENSEX': 1, 'NIFTY BANK': 2, 'NIFTY IT': 3 };
+  const items = Array.from(uniqueItemsMap.values()).sort(
+    (a, b) => (orderMap[a.symbol] || 99) - (orderMap[b.symbol] || 99)
+  );
 
   return (
     <div style={{
@@ -17,11 +30,10 @@ export default function LiveTicker({ tickerData = [] }) {
       background: 'rgba(8, 16, 30, 0.9)',
       border: '1px solid rgba(0, 229, 255, 0.3)',
       borderRadius: '8px',
-      padding: '8px 16px',
+      padding: '8px 20px',
       display: 'flex',
       alignItems: 'center',
-      gap: '20px',
-      overflow: 'hidden',
+      gap: '24px',
       marginBottom: '20px',
       boxShadow: '0 4px 20px rgba(0, 0, 0, 0.4)'
     }}>
@@ -37,29 +49,28 @@ export default function LiveTicker({ tickerData = [] }) {
         fontSize: '11px',
         fontWeight: '700',
         color: '#ff4d4f',
-        letterSpacing: '0.05em'
+        letterSpacing: '0.05em',
+        flexShrink: 0
       }}>
         <span className="pulsing-dot" />
         LIVE
       </div>
 
-      {/* Marquee ticker list */}
+      {/* Clean single ticker indices (strictly no duplication) */}
       <div style={{
         display: 'flex',
         alignItems: 'center',
+        justifyContent: 'space-around',
         gap: '32px',
-        flex: 1,
-        overflowX: 'auto',
-        scrollbarWidth: 'none',
-        whiteSpace: 'nowrap'
+        flex: 1
       }}>
-        {items.concat(items).map((item, idx) => {
+        {items.map((item) => {
           const isPos = (item.change_percent >= 0);
           return (
-            <div key={idx} style={{
+            <div key={item.symbol} style={{
               display: 'flex',
               alignItems: 'center',
-              gap: '8px',
+              gap: '10px',
               fontSize: '13px',
               fontFamily: 'var(--font-mono)'
             }}>
