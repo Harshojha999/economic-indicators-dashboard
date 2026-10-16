@@ -4,7 +4,7 @@ A full-stack, real-time financial intelligence dashboard engineered to monitor k
 
 Designed strictly in accordance with the **Interview Round II — Full Stack Application Challenge** specifications and calibrated for the required **1214 × 2159 CSS pixels** evaluation viewport.
 
-![Dashboard Preview](tracker/dashboard_preview.png)
+![Dashboard Preview](frontend/public/assets/dashboard_preview.png)
 
 ---
 

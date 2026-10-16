@@ -22,3 +22,9 @@ ENV/
 Thumbs.db
 .vscode/
 .idea/
+
+# Internal assessment materials (Hidden from repository)
+tracker/
+extracted_images/
+*.docx
+
