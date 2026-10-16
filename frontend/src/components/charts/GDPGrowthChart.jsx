@@ -11,7 +11,7 @@ export default function GDPGrowthChart({ data = [] }) {
   ];
 
   return (
-    <div style={{ width: '100%', height: 260 }}>
+    <div style={{ width: '100%', height: 330 }}>
       {/* Legend matching Figma */}
       <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '16px', marginBottom: '8px', fontSize: '12px' }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>

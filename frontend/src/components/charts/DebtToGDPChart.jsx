@@ -12,7 +12,7 @@ export default function DebtToGDPChart({ data = [] }) {
   ];
 
   return (
-    <div style={{ width: '100%', height: 260 }}>
+    <div style={{ width: '100%', height: 330 }}>
       <ResponsiveContainer width="100%" height="100%">
         <AreaChart data={chartData} margin={{ top: 15, right: 10, left: -20, bottom: 0 }}>
           <defs>

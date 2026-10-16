@@ -11,6 +11,7 @@ import TradeBalanceChart from './components/charts/TradeBalanceChart';
 import GSTCollectionChart from './components/charts/GSTCollectionChart';
 import InflationChart from './components/charts/InflationChart';
 import GovtExpenditureChart from './components/charts/GovtExpenditureChart';
+import MetricBadge from './components/MetricBadge';
 
 // Icons & Visual Badges
 import { 
@@ -141,11 +142,13 @@ export default function App() {
           primaryLabel={gdp.primary_metric_label || "India"}
           primaryValue={gdp.primary_metric_value || "4.82%"}
           primaryChange={gdp.primary_metric_change || "-0.2pp"}
-          primaryIcon={<span style={{ fontSize: 14 }}>🇮🇳</span>}
+          primaryIcon={<span style={{ fontSize: 13 }}>🇮🇳</span>}
+          primaryIllustration={<MetricBadge type="india_flag" size={44} />}
           secondaryLabel={gdp.secondary_metric_label || "World"}
           secondaryValue={gdp.secondary_metric_value || "3.82%"}
           secondaryChange={gdp.secondary_metric_change || "-0.81pp"}
-          secondaryIcon={<Globe size={14} style={{ color: '#38bdf8' }} />}
+          secondaryIcon={<Globe size={13} style={{ color: '#38bdf8' }} />}
+          secondaryIllustration={<MetricBadge type="world_globe" size={44} />}
           source={gdp.source}
           observationPeriod={gdp.observation_period}
           isStale={isStale}
@@ -159,11 +162,13 @@ export default function App() {
           primaryLabel={debt.primary_metric_label || "India (FY25)"}
           primaryValue={debt.primary_metric_value || "3.82%"}
           primaryChange={debt.primary_metric_change || "-0.81pp"}
-          primaryIcon={<span style={{ fontSize: 14 }}>🇮🇳</span>}
+          primaryIcon={<span style={{ fontSize: 13 }}>🇮🇳</span>}
+          primaryIllustration={<MetricBadge type="india_flag" size={44} />}
           secondaryLabel={debt.secondary_metric_label || "Ind vs US"}
           secondaryValue={debt.secondary_metric_value || "3.82%"}
           secondaryChange={debt.secondary_metric_change || "-0.81pp"}
-          secondaryIcon={<span style={{ fontSize: 14 }}>🇺🇸</span>}
+          secondaryIcon={<span style={{ fontSize: 13 }}>🇺🇸</span>}
+          secondaryIllustration={<MetricBadge type="us_flag" size={44} />}
           source={debt.source}
           observationPeriod={debt.observation_period}
           isStale={isStale}
@@ -177,11 +182,13 @@ export default function App() {
           primaryLabel={trade.primary_metric_label || "Exports"}
           primaryValue={trade.primary_metric_value || "$382.9 B"}
           primaryChange={trade.primary_metric_change || "-0.81pp"}
-          primaryIcon={<Ship size={14} style={{ color: '#f59e0b' }} />}
+          primaryIcon={<Ship size={13} style={{ color: '#f59e0b' }} />}
+          primaryIllustration={<MetricBadge type="cargo_ship" size={48} />}
           secondaryLabel={trade.secondary_metric_label || "Imports"}
           secondaryValue={trade.secondary_metric_value || "$382.9 B"}
           secondaryChange={trade.secondary_metric_change || "-0.81pp"}
-          secondaryIcon={<Scale size={14} style={{ color: '#00e5ff' }} />}
+          secondaryIcon={<Scale size={13} style={{ color: '#00e5ff' }} />}
+          secondaryIllustration={<MetricBadge type="port_containers" size={48} />}
           source={trade.source}
           observationPeriod={trade.observation_period}
           isStale={isStale}
@@ -195,11 +202,13 @@ export default function App() {
           primaryLabel={gst.primary_metric_label || "GST Collections"}
           primaryValue={gst.primary_metric_value || "3.82%"}
           primaryChange={gst.primary_metric_change || "-0.81pp"}
-          primaryIcon={<Coins size={14} style={{ color: '#eab308' }} />}
+          primaryIcon={<Coins size={13} style={{ color: '#eab308' }} />}
+          primaryIllustration={<MetricBadge type="gst_coins" size={48} />}
           secondaryLabel={gst.secondary_metric_label || "Monthly Average"}
           secondaryValue={gst.secondary_metric_value || "1.97"}
           secondaryChange={gst.secondary_metric_change || "-0.81pp"}
-          secondaryIcon={<BarChart3 size={14} style={{ color: '#38bdf8' }} />}
+          secondaryIcon={<BarChart3 size={13} style={{ color: '#38bdf8' }} />}
+          secondaryIllustration={<MetricBadge type="bank_vault" size={48} />}
           source={gst.source}
           observationPeriod={gst.observation_period}
           isStale={isStale}
@@ -213,11 +222,13 @@ export default function App() {
           primaryLabel={inflation.primary_metric_label || "Inflation Rate"}
           primaryValue={inflation.primary_metric_value || "2.1%"}
           primaryChange={inflation.primary_metric_change || "-0.2pp"}
-          primaryIcon={<TrendingUp size={14} style={{ color: '#00e5ff' }} />}
+          primaryIcon={<TrendingUp size={13} style={{ color: '#00e5ff' }} />}
+          primaryIllustration={<MetricBadge type="shopping_cart" size={48} />}
           secondaryLabel={inflation.secondary_metric_label || "RBI Target"}
           secondaryValue={inflation.secondary_metric_value || "4%"}
           secondaryChange={inflation.secondary_metric_change || "-0.2pp"}
-          secondaryIcon={<Landmark size={14} style={{ color: '#f59e0b' }} />}
+          secondaryIcon={<Landmark size={13} style={{ color: '#f59e0b' }} />}
+          secondaryIllustration={<MetricBadge type="target_bullseye" size={48} />}
           source={inflation.source}
           observationPeriod={inflation.observation_period}
           isStale={isStale}
@@ -231,11 +242,13 @@ export default function App() {
           primaryLabel={govt.primary_metric_label || "Total Expenditure"}
           primaryValue={govt.primary_metric_value || "4.82%"}
           primaryChange={govt.primary_metric_change || "-0.2pp"}
-          primaryIcon={<Building2 size={14} style={{ color: '#0077b6' }} />}
+          primaryIcon={<Building2 size={13} style={{ color: '#0077b6' }} />}
+          primaryIllustration={<MetricBadge type="govt_building" size={48} />}
           secondaryLabel={govt.secondary_metric_label || "Capital Expenditure"}
           secondaryValue={govt.secondary_metric_value || "3.82%"}
           secondaryChange={govt.secondary_metric_change || "-0.2pp"}
-          secondaryIcon={<Wallet size={14} style={{ color: '#f59e0b' }} />}
+          secondaryIcon={<Wallet size={13} style={{ color: '#f59e0b' }} />}
+          secondaryIllustration={<MetricBadge type="capital_growth" size={48} />}
           source={govt.source}
           observationPeriod={govt.observation_period}
           isStale={isStale}

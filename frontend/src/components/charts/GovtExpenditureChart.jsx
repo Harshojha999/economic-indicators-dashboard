@@ -11,7 +11,7 @@ export default function GovtExpenditureChart({ data = [] }) {
   ];
 
   return (
-    <div style={{ width: '100%', height: 260 }}>
+    <div style={{ width: '100%', height: 330 }}>
       <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '14px', marginBottom: '8px', fontSize: '11px' }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: '5px' }}>
           <span style={{ width: 8, height: 8, backgroundColor: '#0077b6', borderRadius: 2 }} />
