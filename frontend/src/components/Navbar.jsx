@@ -141,25 +141,47 @@ export default function Navbar({
               </button>
             </div>
           ) : (
-            <button
-              onClick={onOpenAuth}
-              style={{
-                background: 'linear-gradient(135deg, #00b4d8 0%, #0077b6 100%)',
-                border: 'none',
-                color: '#ffffff',
-                borderRadius: '6px',
-                padding: '5px 14px',
-                fontSize: '12px',
-                fontWeight: '600',
-                cursor: 'pointer',
-                display: 'flex',
-                alignItems: 'center',
-                gap: '6px',
-                boxShadow: '0 2px 8px rgba(0, 180, 216, 0.4)'
-              }}
-            >
-              <LogIn size={13} /> Sign In
-            </button>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+              <button
+                onClick={() => onOpenAuth('login')}
+                style={{
+                  background: 'transparent',
+                  border: '1px solid rgba(0, 229, 255, 0.35)',
+                  color: '#00e5ff',
+                  borderRadius: '6px',
+                  padding: '5px 12px',
+                  fontSize: '12px',
+                  fontWeight: '600',
+                  cursor: 'pointer',
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '5px',
+                  transition: 'all 0.2s ease'
+                }}
+              >
+                <LogIn size={13} /> Sign In
+              </button>
+              <button
+                onClick={() => onOpenAuth('register')}
+                style={{
+                  background: 'linear-gradient(135deg, #00e5ff 0%, #0077b6 100%)',
+                  border: 'none',
+                  color: '#ffffff',
+                  borderRadius: '6px',
+                  padding: '5px 12px',
+                  fontSize: '12px',
+                  fontWeight: '700',
+                  cursor: 'pointer',
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '5px',
+                  boxShadow: '0 2px 10px rgba(0, 229, 255, 0.3)',
+                  transition: 'all 0.2s ease'
+                }}
+              >
+                <User size={13} /> Sign Up
+              </button>
+            </div>
           )}
         </div>
       </div>

@@ -1,13 +1,20 @@
 import React, { useState } from 'react';
 import { X, Lock, Mail, User, ShieldCheck, Sparkles, ArrowRight } from 'lucide-react';
 
-export default function AuthModal({ isOpen, onClose, onLogin, onRegister, isMandatory = false }) {
-  const [isRegister, setIsRegister] = useState(false);
+export default function AuthModal({ isOpen, onClose, onLogin, onRegister, isMandatory = false, initialMode = 'login' }) {
+  const [isRegister, setIsRegister] = useState(initialMode === 'register');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [fullName, setFullName] = useState('');
   const [errorMsg, setErrorMsg] = useState('');
   const [submitting, setSubmitting] = useState(false);
+
+  React.useEffect(() => {
+    if (isOpen) {
+      setIsRegister(initialMode === 'register');
+      setErrorMsg('');
+    }
+  }, [isOpen, initialMode]);
 
   if (!isOpen) return null;
 
@@ -60,23 +67,27 @@ export default function AuthModal({ isOpen, onClose, onLogin, onRegister, isMand
         padding: '32px',
         position: 'relative'
       }}>
-        {/* Optional Close button only if not in mandatory gate mode */}
-        {!isMandatory && (
-          <button
-            onClick={onClose}
-            style={{
-              position: 'absolute',
-              top: 18,
-              right: 18,
-              background: 'transparent',
-              border: 'none',
-              color: '#94a3b8',
-              cursor: 'pointer'
-            }}
-          >
-            <X size={20} />
-          </button>
-        )}
+        {/* Close button */}
+        <button
+          onClick={onClose}
+          aria-label="Close modal"
+          style={{
+            position: 'absolute',
+            top: 18,
+            right: 18,
+            background: 'transparent',
+            border: 'none',
+            color: '#94a3b8',
+            cursor: 'pointer',
+            padding: '4px',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            transition: 'color 0.2s ease'
+          }}
+        >
+          <X size={20} />
+        </button>
 
         {/* Security Badge */}
         <div style={{
@@ -249,7 +260,7 @@ export default function AuthModal({ isOpen, onClose, onLogin, onRegister, isMand
           </button>
         </form>
 
-        <div style={{ textAlign: 'center', marginTop: '18px' }}>
+        <div style={{ textAlign: 'center', marginTop: '18px', display: 'flex', flexDirection: 'column', gap: '8px' }}>
           <button
             type="button"
             onClick={() => { setIsRegister(!isRegister); setErrorMsg(''); }}
@@ -263,6 +274,20 @@ export default function AuthModal({ isOpen, onClose, onLogin, onRegister, isMand
             }}
           >
             {isRegister ? 'Already have an account? Sign In' : "Don't have an account? Register here"}
+          </button>
+          <button
+            type="button"
+            onClick={onClose}
+            style={{
+              background: 'transparent',
+              border: 'none',
+              color: '#64748b',
+              fontSize: '11px',
+              cursor: 'pointer',
+              textDecoration: 'underline'
+            }}
+          >
+            Or preview dashboard as Guest →
           </button>
         </div>
       </div>

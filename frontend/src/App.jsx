@@ -30,15 +30,27 @@ export default function App() {
   const [isStale, setIsStale] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [serverHealthy, setServerHealthy] = useState(false);
-  const [authModalOpen, setAuthModalOpen] = useState(false);
   const [currentUser, setCurrentUser] = useState(() => {
     try {
+      const token = localStorage.getItem('economic_dashboard_token');
       const stored = localStorage.getItem('economic_dashboard_user');
-      return stored ? JSON.parse(stored) : { email: 'evaluator@panel.com', fullName: 'Lead Evaluator' };
+      return (token && stored) ? JSON.parse(stored) : null;
     } catch {
-      return { email: 'evaluator@panel.com', fullName: 'Lead Evaluator' };
+      return null;
     }
   });
+
+  // Open modal on first visit if user is not already authenticated
+  const [authModalOpen, setAuthModalOpen] = useState(() => {
+    try {
+      const token = localStorage.getItem('economic_dashboard_token');
+      const stored = localStorage.getItem('economic_dashboard_user');
+      return !(token && stored);
+    } catch {
+      return true;
+    }
+  });
+  const [authModalMode, setAuthModalMode] = useState('login');
 
   // Load initial data
   const loadData = async () => {
@@ -103,12 +115,17 @@ export default function App() {
   const inflation = getIndicator('inflation_cpi');
   const govt = getIndicator('govt_expenditure');
 
+  const handleOpenAuth = (mode = 'login') => {
+    setAuthModalMode(mode);
+    setAuthModalOpen(true);
+  };
+
   return (
     <div className="viewport-container">
       {/* Top Navbar & Header Controls */}
       <Navbar 
         user={currentUser}
-        onOpenAuth={() => setAuthModalOpen(true)}
+        onOpenAuth={handleOpenAuth}
         onLogout={handleLogout}
         onRefresh={loadData}
         isRefreshing={isLoading}
@@ -288,10 +305,10 @@ export default function App() {
         </IndicatorCard>
       </div>
 
-      {/* Reviewer / Evaluator Authentication Gate (Website khulte hi Sign-in window mandatory) */}
+      {/* Reviewer / Evaluator Authentication Modal */}
       <AuthModal
-        isOpen={!currentUser || authModalOpen}
-        isMandatory={!currentUser}
+        isOpen={authModalOpen}
+        initialMode={authModalMode}
         onClose={() => setAuthModalOpen(false)}
         onLogin={handleLogin}
         onRegister={handleRegister}
