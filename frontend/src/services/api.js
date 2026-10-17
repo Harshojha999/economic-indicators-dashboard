@@ -90,7 +90,7 @@ export const FALLBACK_INDICATORS = [
     primary_metric_value: '3.82%',
     primary_metric_change: '-0.81pp',
     secondary_metric_label: 'Monthly Average',
-    secondary_metric_value: '1.97',
+    secondary_metric_value: '1.97%',
     secondary_metric_change: '-0.81pp',
     chart_data: [
       { year: '2021', collection: 8.7, average: 2.1 },

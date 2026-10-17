@@ -164,27 +164,29 @@ export default function Navbar({
         </div>
       </div>
 
-      {/* Main Title Centerpiece matching Figma */}
-      <div style={{
-        textAlign: 'center',
-        padding: '12px 0 20px 0',
-        position: 'relative'
-      }}>
+      {/* Main Title Centerpiece with Glowing Candlestick Background matching Figma Image 1 */}
+      <div className="header-banner">
+        <div className="header-candlesticks-bg" />
         <h1 style={{
-          fontSize: '28px',
+          position: 'relative',
+          fontSize: '26px',
           fontWeight: '900',
-          letterSpacing: '0.18em',
+          letterSpacing: '0.22em',
           color: '#ffffff',
           textTransform: 'uppercase',
-          textShadow: '0 0 20px rgba(0, 229, 255, 0.6), 0 0 40px rgba(0, 180, 216, 0.3)'
+          textShadow: '0 0 24px rgba(0, 229, 255, 0.7), 0 0 48px rgba(0, 180, 216, 0.35)',
+          zIndex: 1
         }}>
           ECONOMIC INDICATOR
         </h1>
         <div style={{
-          width: '120px',
-          height: '2px',
+          position: 'relative',
+          width: '140px',
+          height: '2.5px',
           background: 'linear-gradient(90deg, transparent, #00e5ff, transparent)',
-          margin: '8px auto 0 auto'
+          margin: '6px auto 0 auto',
+          boxShadow: '0 0 12px #00e5ff',
+          zIndex: 1
         }} />
       </div>
     </header>

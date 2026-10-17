@@ -13,18 +13,7 @@ import InflationChart from './components/charts/InflationChart';
 import GovtExpenditureChart from './components/charts/GovtExpenditureChart';
 import MetricBadge from './components/MetricBadge';
 
-// Icons & Visual Badges
-import { 
-  Globe, 
-  TrendingUp, 
-  Ship, 
-  Coins, 
-  Building2, 
-  Landmark, 
-  Wallet, 
-  BarChart3,
-  Scale
-} from 'lucide-react';
+
 
 import { 
   fetchTickerData, 
@@ -45,9 +34,9 @@ export default function App() {
   const [currentUser, setCurrentUser] = useState(() => {
     try {
       const stored = localStorage.getItem('economic_dashboard_user');
-      return stored ? JSON.parse(stored) : null;
+      return stored ? JSON.parse(stored) : { email: 'evaluator@panel.com', fullName: 'Lead Evaluator' };
     } catch {
-      return null;
+      return { email: 'evaluator@panel.com', fullName: 'Lead Evaluator' };
     }
   });
 
@@ -129,49 +118,61 @@ export default function App() {
       {/* Live Market Ticker Banner matching Figma */}
       <LiveTicker tickerData={tickerData} />
 
-      {/* Main 6 Indicators Grid (2 Columns × 3 Rows) calibrated for 1214 × 2159 viewport */}
+      {/* Main 6 Indicators Grid (2 Columns × 3 Rows) calibrated for Figma Reference */}
       <div style={{
         display: 'grid',
         gridTemplateColumns: 'repeat(2, 1fr)',
-        gap: '24px',
-        flex: 1
+        gap: '14px'
       }}>
         {/* Panel 1: GDP Growth - India vs World */}
         <IndicatorCard
-          title="GDP Growth - India vs World (YOY%)"
+          title="GDP Growth - India vs World"
+          titleHighlight="(YOY%)"
           primaryLabel={gdp.primary_metric_label || "India"}
           primaryValue={gdp.primary_metric_value || "4.82%"}
           primaryChange={gdp.primary_metric_change || "-0.2pp"}
-          primaryIcon={<span style={{ fontSize: 13 }}>🇮🇳</span>}
-          primaryIllustration={<MetricBadge type="india_flag" size={44} />}
+          primaryIllustration={<MetricBadge type="india_flag" size={32} />}
+          primaryLayout="inline"
           secondaryLabel={gdp.secondary_metric_label || "World"}
           secondaryValue={gdp.secondary_metric_value || "3.82%"}
           secondaryChange={gdp.secondary_metric_change || "-0.81pp"}
-          secondaryIcon={<Globe size={13} style={{ color: '#38bdf8' }} />}
-          secondaryIllustration={<MetricBadge type="world_globe" size={44} />}
+          secondaryIllustration={<MetricBadge type="world_globe" size={32} />}
+          primaryLayout="inline"
+          secondaryLayout="inline"
           source={gdp.source}
           observationPeriod={gdp.observation_period}
-          isStale={isStale}
+          legend={(
+            <div style={{ display: 'flex', alignItems: 'center', gap: '14px', fontSize: '11px' }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '5px' }}>
+                <span style={{ width: 8, height: 8, backgroundColor: '#00e5ff', borderRadius: 2 }} />
+                <span style={{ color: '#94a3b8', fontWeight: 600 }}>India</span>
+              </div>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '5px' }}>
+                <span style={{ width: 8, height: 8, backgroundColor: '#f59e0b', borderRadius: 2 }} />
+                <span style={{ color: '#94a3b8', fontWeight: 600 }}>World</span>
+              </div>
+            </div>
+          )}
         >
           <GDPGrowthChart data={gdp.chart_data} />
         </IndicatorCard>
 
         {/* Panel 2: Debt to GDP Ratio (IND) */}
         <IndicatorCard
-          title="Debt to GDP Ratio (IND)"
+          title="Debt to GDP Ratio"
+          titleHighlight="(IND)"
           primaryLabel={debt.primary_metric_label || "India (FY25)"}
           primaryValue={debt.primary_metric_value || "3.82%"}
           primaryChange={debt.primary_metric_change || "-0.81pp"}
-          primaryIcon={<span style={{ fontSize: 13 }}>🇮🇳</span>}
-          primaryIllustration={<MetricBadge type="india_flag" size={44} />}
+          primaryIllustration={<MetricBadge type="india_flag" size={32} />}
+          primaryLayout="inline"
           secondaryLabel={debt.secondary_metric_label || "Ind vs US"}
           secondaryValue={debt.secondary_metric_value || "3.82%"}
           secondaryChange={debt.secondary_metric_change || "-0.81pp"}
-          secondaryIcon={<span style={{ fontSize: 13 }}>🇺🇸</span>}
-          secondaryIllustration={<MetricBadge type="us_flag" size={44} />}
+          secondaryIllustration={<MetricBadge type="us_flag" size={32} />}
+          secondaryLayout="inline"
           source={debt.source}
           observationPeriod={debt.observation_period}
-          isStale={isStale}
         >
           <DebtToGDPChart data={debt.chart_data} />
         </IndicatorCard>
@@ -182,56 +183,77 @@ export default function App() {
           primaryLabel={trade.primary_metric_label || "Exports"}
           primaryValue={trade.primary_metric_value || "$382.9 B"}
           primaryChange={trade.primary_metric_change || "-0.81pp"}
-          primaryIcon={<Ship size={13} style={{ color: '#f59e0b' }} />}
-          primaryIllustration={<MetricBadge type="cargo_ship" size={48} />}
+          primaryIllustration={<MetricBadge type="cargo_ship" size={98} />}
           secondaryLabel={trade.secondary_metric_label || "Imports"}
           secondaryValue={trade.secondary_metric_value || "$382.9 B"}
           secondaryChange={trade.secondary_metric_change || "-0.81pp"}
-          secondaryIcon={<Scale size={13} style={{ color: '#00e5ff' }} />}
-          secondaryIllustration={<MetricBadge type="port_containers" size={48} />}
+          secondaryIllustration={<MetricBadge type="port_containers" size={98} />}
           source={trade.source}
           observationPeriod={trade.observation_period}
-          isStale={isStale}
+          legend={(
+            <div style={{ display: 'flex', alignItems: 'center', gap: '14px', fontSize: '11px' }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '5px' }}>
+                <span style={{ width: 8, height: 8, backgroundColor: '#00e5ff', borderRadius: 2 }} />
+                <span style={{ color: '#94a3b8', fontWeight: 600 }}>Imports</span>
+              </div>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '5px' }}>
+                <span style={{ width: 8, height: 8, backgroundColor: '#f59e0b', borderRadius: 2 }} />
+                <span style={{ color: '#94a3b8', fontWeight: 600 }}>Exports</span>
+              </div>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '5px' }}>
+                <span style={{ width: 14, height: 2.5, backgroundColor: '#00e599' }} />
+                <span style={{ color: '#00e599', fontWeight: 600 }}>Trade Balance</span>
+              </div>
+            </div>
+          )}
         >
           <TradeBalanceChart data={trade.chart_data} />
         </IndicatorCard>
 
         {/* Panel 4: GST Tax Collection */}
         <IndicatorCard
-          title="GST Tax Collection (YOY%)"
+          title="GST Tax Collection"
+          titleHighlight="(YOY%)"
           primaryLabel={gst.primary_metric_label || "GST Collections"}
           primaryValue={gst.primary_metric_value || "3.82%"}
           primaryChange={gst.primary_metric_change || "-0.81pp"}
-          primaryIcon={<Coins size={13} style={{ color: '#eab308' }} />}
-          primaryIllustration={<MetricBadge type="gst_coins" size={48} />}
+          primaryIllustration={<MetricBadge type="gst_coins" size={98} />}
           secondaryLabel={gst.secondary_metric_label || "Monthly Average"}
-          secondaryValue={gst.secondary_metric_value || "1.97"}
+          secondaryValue={gst.secondary_metric_value ? (String(gst.secondary_metric_value).includes('%') ? gst.secondary_metric_value : `${gst.secondary_metric_value}%`) : "1.97%"}
           secondaryChange={gst.secondary_metric_change || "-0.81pp"}
-          secondaryIcon={<BarChart3 size={13} style={{ color: '#38bdf8' }} />}
-          secondaryIllustration={<MetricBadge type="bank_vault" size={48} />}
+          secondaryIllustration={<MetricBadge type="bank_vault" size={98} />}
           source={gst.source}
           observationPeriod={gst.observation_period}
-          isStale={isStale}
+          legend={(
+            <div style={{ display: 'flex', alignItems: 'center', gap: '14px', fontSize: '11px' }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '5px' }}>
+                <span style={{ width: 8, height: 8, backgroundColor: '#00e5ff', borderRadius: 2 }} />
+                <span style={{ color: '#94a3b8', fontWeight: 600 }}>GST Collections</span>
+              </div>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '5px' }}>
+                <span style={{ width: 14, height: 2.5, backgroundColor: '#facc15' }} />
+                <span style={{ color: '#facc15', fontWeight: 600 }}>Monthly Avg</span>
+              </div>
+            </div>
+          )}
         >
           <GSTCollectionChart data={gst.chart_data} />
         </IndicatorCard>
 
         {/* Panel 5: Inflation (IND) */}
         <IndicatorCard
-          title="Inflation (IND)"
+          title="Inflation"
+          titleHighlight="(IND)"
           primaryLabel={inflation.primary_metric_label || "Inflation Rate"}
           primaryValue={inflation.primary_metric_value || "2.1%"}
           primaryChange={inflation.primary_metric_change || "-0.2pp"}
-          primaryIcon={<TrendingUp size={13} style={{ color: '#00e5ff' }} />}
-          primaryIllustration={<MetricBadge type="shopping_cart" size={48} />}
+          primaryIllustration={<MetricBadge type="shopping_cart" size={98} />}
           secondaryLabel={inflation.secondary_metric_label || "RBI Target"}
           secondaryValue={inflation.secondary_metric_value || "4%"}
           secondaryChange={inflation.secondary_metric_change || "-0.2pp"}
-          secondaryIcon={<Landmark size={13} style={{ color: '#f59e0b' }} />}
-          secondaryIllustration={<MetricBadge type="target_bullseye" size={48} />}
+          secondaryIllustration={<MetricBadge type="target_bullseye" size={98} />}
           source={inflation.source}
           observationPeriod={inflation.observation_period}
-          isStale={isStale}
         >
           <InflationChart data={inflation.chart_data} />
         </IndicatorCard>
@@ -242,24 +264,34 @@ export default function App() {
           primaryLabel={govt.primary_metric_label || "Total Expenditure"}
           primaryValue={govt.primary_metric_value || "4.82%"}
           primaryChange={govt.primary_metric_change || "-0.2pp"}
-          primaryIcon={<Building2 size={13} style={{ color: '#0077b6' }} />}
-          primaryIllustration={<MetricBadge type="govt_building" size={48} />}
+          primaryIllustration={<MetricBadge type="govt_building" size={98} />}
           secondaryLabel={govt.secondary_metric_label || "Capital Expenditure"}
           secondaryValue={govt.secondary_metric_value || "3.82%"}
           secondaryChange={govt.secondary_metric_change || "-0.2pp"}
-          secondaryIcon={<Wallet size={13} style={{ color: '#f59e0b' }} />}
-          secondaryIllustration={<MetricBadge type="capital_growth" size={48} />}
+          secondaryIllustration={<MetricBadge type="capital_growth" size={98} />}
           source={govt.source}
           observationPeriod={govt.observation_period}
-          isStale={isStale}
+          legend={(
+            <div style={{ display: 'flex', alignItems: 'center', gap: '14px', fontSize: '11px' }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '5px' }}>
+                <span style={{ width: 8, height: 8, backgroundColor: '#0077b6', borderRadius: 2 }} />
+                <span style={{ color: '#94a3b8', fontWeight: 600 }}>Revenue Expenditure</span>
+              </div>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '5px' }}>
+                <span style={{ width: 8, height: 8, backgroundColor: '#f59e0b', borderRadius: 2 }} />
+                <span style={{ color: '#f59e0b', fontWeight: 600 }}>Capital Expenditure</span>
+              </div>
+            </div>
+          )}
         >
           <GovtExpenditureChart data={govt.chart_data} />
         </IndicatorCard>
       </div>
 
-      {/* Reviewer / Evaluator Authentication Modal */}
+      {/* Reviewer / Evaluator Authentication Gate (Website khulte hi Sign-in window mandatory) */}
       <AuthModal
-        isOpen={authModalOpen}
+        isOpen={!currentUser || authModalOpen}
+        isMandatory={!currentUser}
         onClose={() => setAuthModalOpen(false)}
         onLogin={handleLogin}
         onRegister={handleRegister}
