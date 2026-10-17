@@ -29,22 +29,23 @@ export default function IndicatorCard({
     );
   }
 
-  const renderDelta = (change) => {
+  const renderDelta = (change, fadeDirection = 'right') => {
     if (!change || change === '—') return null;
     let cleanChange = String(change).replace(/^[▲▼↑↓]\s*/, '').trim();
     if (cleanChange === '0.2pp' || cleanChange === '+0.2pp') {
       cleanChange = '-0.2pp';
     }
+    const fadeClass = fadeDirection === 'left' ? 'delta-fade-left' : 'delta-fade-right';
     return (
-      <span className="delta-pill-triangle">
-        <span style={{ fontSize: '10px', lineHeight: 1, color: '#00e5a0', marginRight: '2px', fontWeight: 750 }}>▲</span>
-        <span style={{ fontWeight: 750, color: '#00e5a0' }}>{cleanChange}</span>
+      <span className={`delta-pill-triangle ${fadeClass}`}>
+        <span style={{ fontSize: '11.5px', lineHeight: 1, color: '#00ff88', marginRight: '3px', fontWeight: 750 }}>▲</span>
+        <span style={{ fontWeight: 750, color: '#00ff88' }}>{cleanChange}</span>
       </span>
     );
   };
 
   // Pattern A: inline layout (flags) for GDP Growth & Debt to GDP Ratio
-  // Badge pinned to bottom-right corner as in reference
+  // Badge pinned to bottom-right corner as in reference (fades to left)
   const renderInlineBox = (label, value, change, illustration) => (
     <div className="glass-metric-box metric-box-inline" style={{ position: 'relative' }}>
       <div style={{ display: 'flex', flexDirection: 'column', width: '100%', height: '100%', justifyContent: 'space-between' }}>
@@ -57,34 +58,34 @@ export default function IndicatorCard({
         </div>
         {/* Row 2: Big value */}
         <div style={{ display: 'flex', alignItems: 'baseline', marginTop: 'auto', paddingBottom: '1px' }}>
-          <span style={{ fontSize: '32px', fontWeight: '750', color: '#ffffff', letterSpacing: '-0.02em', lineHeight: 1 }}>
+          <span style={{ fontSize: '35px', fontWeight: '600', color: '#ffffff', letterSpacing: '-0.02em', lineHeight: 1 }}>
             {value || '—'}
           </span>
         </div>
       </div>
-      {/* Badge pinned to bottom-right corner as in reference */}
-      <div style={{ position: 'absolute', bottom: '2px', right: '2px', zIndex: 2 }}>
-        {renderDelta(change)}
+      {/* Badge pinned to bottom-right corner and chipka hua bottom se */}
+      <div style={{ position: 'absolute', bottom: '0px', right: '0px', zIndex: 2 }}>
+        {renderDelta(change, 'left')}
       </div>
     </div>
   );
 
   // Pattern B: for Imports/Exports, GST, Inflation, Govt Expenditure
-  // Badge pinned to bottom-left corner as in reference
+  // Badge pinned to bottom-left corner as in reference (fades to right)
   const renderRightIllustrationBox = (label, value, change, illustration) => (
     <div className="glass-metric-box metric-box-right" style={{ position: 'relative' }}>
       {/* Text column left */}
       <div style={{ display: 'flex', flexDirection: 'column', width: '100%', height: '100%' }}>
-        <div style={{ fontSize: '12px', color: '#94a3b8', fontWeight: '600', marginBottom: '4px', lineHeight: 1.2 }}>
+        <div style={{ fontSize: '12px', color: '#94a3b8', fontWeight: '600', marginBottom: '15px', lineHeight: 1.2 }}>
           {label}
         </div>
-        <div style={{ fontSize: '29px', fontWeight: '750', color: '#ffffff', letterSpacing: '-0.02em', lineHeight: 1.05 }}>
+        <div style={{ fontSize: '32px', fontWeight: '600', color: '#ffffff', letterSpacing: '-0.02em', lineHeight: 1.05 }}>
           {value || '—'}
         </div>
       </div>
-      {/* Badge pinned to bottom-left corner as in reference */}
-      <div style={{ position: 'absolute', bottom: '2px', left: '2px', zIndex: 2 }}>
-        {renderDelta(change)}
+      {/* Badge pinned to bottom-left corner and chipka hua bottom se */}
+      <div style={{ position: 'absolute', bottom: '0px', left: '0px', zIndex: 2 }}>
+        {renderDelta(change, 'right')}
       </div>
       {/* Illustration: absolute bottom-right */}
       {illustration && (
