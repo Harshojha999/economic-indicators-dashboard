@@ -73,6 +73,28 @@ export default function MetricBadge({ type, size = 48 }) {
   const isLandscape = type.includes('gst') || type.includes('total_expenditure') || type.includes('govt_building');
   const boxWidth = isLandscape ? Math.round(size * 1.2) : size;
 
+  // Custom fine-tuning offsets per user instruction
+  const getCustomOffset = (badgeType) => {
+    switch (badgeType) {
+      case 'port_containers':
+      case 'imports':
+        return { transform: 'translateY(7px)' }; // Imports: thodi neeche
+      case 'gst_coins':
+      case 'gst_collections':
+        return { transform: 'translateX(9px)' }; // GST Collections: right ko shift
+      case 'bank_vault':
+      case 'monthly_average':
+        return { transform: 'translateY(8px)' }; // Monthly Average: thoda neeche shift
+      case 'govt_building':
+      case 'total_expenditure':
+        return { transform: 'translate(9px, 7px)' }; // Total Expenditure: right aur thodi neeche
+      default:
+        return {};
+    }
+  };
+
+  const customOffset = getCustomOffset(type);
+
   return (
     <div style={{
       width: boxWidth,
@@ -84,6 +106,7 @@ export default function MetricBadge({ type, size = 48 }) {
       display: 'flex',
       alignItems: 'flex-end',
       justifyContent: 'flex-end',
+      ...customOffset
     }}>
       {/* Subtle ambient cyan glow behind the floating 3D asset anchored to corner */}
       <div style={{
